@@ -13,6 +13,8 @@
         src="https://ca.slack-edge.com/T07466B189M-U07A1DS3G3Z-70b34ad72cf3-72"
         data-testid="slackProfilePicture"
         alt="Slack Profile Picture"
+        width="72"
+        height="72"
       />
       <p data-testid="slackEmail">Obascoba007@gmail.com</p>
       <h2>My Goals for the Next 2 Years</h2>
@@ -25,7 +27,6 @@
           <li>Attend tech conferences and networking events.</li>
         </ul>
       </section>
-      <p>Visit this Link below for more information</p>
       <nav>
         <a href="https://hng.tech/learn" data-testid="hngLink">HNG Learn</a>
         <a href="https://keyword.dog" data-testid="keywordLink">Keyword Dog</a>
@@ -35,10 +36,44 @@
       </nav>
     </div>
     <footer>
-      <p data-testid="currentTimeUTC">6:40 AM</p>
-      <p data-testid="currentDay">Tuesday</p>
+      <p data-testid="currentTimeUTC">Loading current time...</p>
+      <p data-testid="currentDay">Loading current day...</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const currentTimeElement = document.querySelector(
+          '[data-testid="currentTimeUTC"]'
+        );
+        const currentDayElement = document.querySelector(
+          '[data-testid="currentDay"]'
+        );
+
+        function updateTime() {
+          const now = new Date();
+          const utcTime = now.toUTCString().slice(-12, -4);
+          currentTimeElement.textContent = `Current Time (UTC): ${utcTime}`;
+        }
+
+        function updateDay() {
+          const daysOfWeek = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ];
+          const now = new Date();
+          const day = daysOfWeek[now.getUTCDay()];
+          currentDayElement.textContent = `Current Day: ${day}`;
+        }
+
+        updateTime();
+        updateDay();
+        setInterval(updateTime, 60000); // Update time every minute
+      });
+    </script>
   </body>
 </html>
