@@ -42,45 +42,37 @@
         >
       </nav>
       <footer>
-        <p data-testid="currentTimeUTC">Loading current time...</p>
-        <p data-testid="currentDay">Loading current day...</p>
+        <p data-testid="currentTimeUTC"></p>
+        <p data-testid="currentDay"></p>
       </footer>
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const currentTimeElement = document.querySelector(
+      function updateTime() {
+        const currentTimeUTC = document.querySelector(
           '[data-testid="currentTimeUTC"]'
         );
-        const currentDayElement = document.querySelector(
-          '[data-testid="currentDay"]'
-        );
+        const currentDay = document.querySelector('[data-testid="currentDay"]');
 
-        function updateTime() {
-          const now = new Date();
-          const utcTime = now.toUTCString().slice(-12, -4);
-          currentTimeElement.textContent = `Current Time (UTC): ${utcTime}`;
-        }
+        const now = new Date();
+        const nowPlusOneHour = new Date(now.getTime() + 60 * 60 * 1000);
+        const dayNames = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        const dayName = dayNames[nowPlusOneHour.getUTCDay()];
 
-        function updateDay() {
-          const daysOfWeek = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ];
-          const now = new Date();
-          const day = daysOfWeek[now.getUTCDay()];
-          currentDayElement.textContent = `Current Day: ${day}`;
-        }
+        currentTimeUTC.textContent = `Current Time (UTC+1): ${nowPlusOneHour.toUTCString()}`;
+        currentDay.textContent = `Current Day: ${dayName}`;
+      }
 
-        updateTime();
-        updateDay();
-        setInterval(updateTime, 60000); // Update time every minute
-      });
+      updateTime();
+      setInterval(updateTime, 1000);
     </script>
   </body>
 </html>
